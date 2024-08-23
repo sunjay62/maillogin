@@ -1,0 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-image: url(./assets/image/bg-login1.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed; /* Ensures background stays fixed on scroll */
+  font-family: 'Poppins', sans-serif;
+}
+
+.mainContainer {
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.loginContainer {
+  display: flex;
+  height: 92%;
+
+  .loginLeft {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .borderLogin {
+      position: relative;
+      width: 70%;
+      height: max-content;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgb(204, 204, 204);
+        background: linear-gradient(119deg, rgba(204, 204, 204, 1) 20%, rgba(255, 255, 255, 1) 52%, rgba(204, 204, 204, 1) 84%);
+        opacity: 0.4;
+        border-radius: 25px;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+        -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+      }
+
+      .loginContent {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 25px;
+        padding: 25px;
+      }
+
+      .topLeft {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        h1 {
+          color: rgb(19, 149, 255);
+        }
+
+        p {
+          @media (max-width: 992px) {
+            text-align: center;
+          }
+        }
+      }
+
+      .bottomLeft {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 25px;
+
+        input {
+          height: 45px;
+          border-radius: 15px;
+          font-size: 1.2rem;
+          padding: 0 15px;
+          border: 1px solid gray;
+          outline: none;
+          transition: all ease-in-out 0.2s;
+          opacity: 0.7;
+
+          &:focus {
+            outline: 2px solid rgb(32, 121, 255);
+          }
+        }
+
+        button {
+          height: 35px;
+          border-radius: 10px;
+          cursor: pointer;
+          background: rgb(87, 159, 255);
+          background: linear-gradient(90deg, rgba(87, 159, 255, 1) 34%, rgba(44, 101, 255, 1) 88%);
+          color: white;
+          border: none;
+          font-size: 1.1rem;
+          transition: background-position 0.3s ease-in-out;
+          background-size: 200% 100%;
+          background-position: 0% 0%;
+          box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.75);
+          -webkit-box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.75);
+          -moz-box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.75);
+
+          &:hover {
+            background-position: 100% 0%;
+          }
+        }
+      }
+    }
+  }
+
+  .loginRight {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .logoTop {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 50px 50px 0 50px;
+      flex: 1;
+
+      img {
+        width: 40%;
+
+        @media (max-width: 992px) {
+          width: 45%;
+        }
+      }
+    }
+
+    .logoBottom {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      padding: 25px 50px 50px 50px;
+      flex: 1.5;
+      gap: 35px; /* Adds space between the logos */
+
+      img {
+        width: calc(32.33% - 20px);
+        max-width: 200px;
+        height: auto;
+
+        @media (max-width: 992px) {
+          width: calc(50.33% - 20px);
+        }
+      }
+    }
+  }
+}
+
+.creditContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 7%;
+  padding-top: 2px;
+  border: 2px solid #ffffff62;
+  background-color: #ffffff62;
+
+  p {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #383838;
+    @media (max-width: 992px) {
+      text-align: center;
+    }
+  }
+
+  .linkRemala {
+    text-decoration: none;
+    color: rgb(0, 108, 196);
+    transition: all ease-in-out 0.2s;
+
+    &:hover {
+      color: rgb(19, 149, 255);
+    }
+  }
+}
+
+.mobileLogoTop,
+.mobileLogoBottom {
+  display: none;
+}
+
+@media (max-width: 992px) {
+  .mainContainer {
+    height: max-content;
+  }
+
+  .loginContainer {
+    flex-direction: column;
+
+    .mobileLogoTop {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 25px 0 20px 0;
+
+      img {
+        width: 30%;
+        max-width: 200px;
+      }
+    }
+
+    .loginLeft {
+      padding-top: 0;
+      .borderLogin {
+        width: 90%;
+      }
+    }
+
+    .mobileLogoBottom {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      padding: 50px 25px 50px;
+      gap: 35px;
+
+      img {
+        width: calc(50.33% - 20px);
+        max-width: 150px;
+        height: auto;
+      }
+    }
+
+    .loginRight {
+      display: none;
+    }
+  }
+}
