@@ -9,51 +9,63 @@ import logoAccelworks from './assets/image/logoaccelworks.png';
 import logoPc24 from './assets/image/logopc24.png';
 import logoSaas from './assets/image/logosaas.png';
 import axios from 'axios';
+import { Bounce, toast } from 'react-toastify';
 
 function App() {
-  const [csrfToken, setCsrfToken] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [turnstileResponse, setTurnstileResponse] = useState('');
 
-  // useEffect(() => {
-  //   const script = document.createElement('script');
-  //   script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
-  //   script.async = true;
-  //   script.defer = true;
-  //   document.body.appendChild(script);
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
 
-  //   return () => {
-  //     document.body.removeChild(script);
-  //   };
-  // }, []);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   const handleLogin = async () => {
     try {
-      // Fetch CSRF token before logging in
-      const csrfResponse = await axios.get(`http://mail-sso.remala.co.id:5000/api/csrf-token`);
-      const csrfToken = csrfResponse.data.csrf_token;
-
-      // Check if token is printed
-      console.log('CSRF Token:', csrfToken);
-
       const formData = new FormData();
       formData.append('email', email);
       formData.append('password', password);
-      formData.append('csrf_token', csrfToken);
       // formData.append('cf-turnstile-response', turnstileResponse);
 
       for (let pair of formData.entries()) {
         console.log(pair[0] + ': ' + pair[1]);
       }
 
-      const responseData = await axios.post(`http://mail-sso.remala.co.id:5000/api/loginin`, formData, {
-        withCredentials: true,
-      });
+      const responseData = await axios.post(`https://mail-sso.remala.co.id/api/loginin`, formData);
 
       console.log(responseData);
+
+      if (responseData.status === 200 && responseData.data.url) {
+        window.location.href = responseData.data.url;
+        toast.success('Login Successfully!', {
+          position: 'top-right',
+        });
+      }
     } catch (error) {
       console.log(error);
+      if (error.response && error.response.status === 401) {
+        toast.error(error.response.data.messages, {
+          position: 'top-center',
+        });
+      } else if (error.response && error.response.status === 500) {
+        toast.error(error.message, {
+          position: 'top-center',
+        });
+      }
+    }
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleLogin();
     }
   };
 
@@ -71,8 +83,8 @@ function App() {
                 <p>Enter your username and password to sign in!</p>
               </div>
               <div className="bottomLeft">
-                <input type="text" placeholder="Username" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} onKeyDown={handleKeyDown} />
+                <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={handleKeyDown} />
                 <div className="cf-turnstile" data-sitekey="0x4AAAAAAAhYlX5ZsZV7ns1O"></div>
                 <button onClick={handleLogin}>Sign In</button>
               </div>
