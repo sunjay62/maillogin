@@ -9,38 +9,48 @@ import logoAccelworks from './assets/image/logoaccelworks.png';
 import logoPc24 from './assets/image/logopc24.png';
 import logoSaas from './assets/image/logosaas.png';
 import axios from 'axios';
-import { Bounce, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const turnstileRef = useRef(null); // Ref to access the Turnstile widget
+  const [turnstileResponse, setTurnstileResponse] = useState('');
+  const turnstileRef = useRef(null);
+  const [isScriptLoaded, setIsScriptLoaded] = useState(false);
 
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
-    script.async = true;
-    script.defer = true;
-    document.body.appendChild(script);
+    if (!isScriptLoaded && !document.getElementById('turnstile-script')) {
+      const script = document.createElement('script');
+      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback';
+      script.id = 'turnstile-script';
+      script.async = true;
+      script.defer = true;
 
-    script.onload = () => {
-      if (window.turnstile) {
-        window.turnstile.render(turnstileRef.current, {
-          sitekey: '0x4AAAAAAAhYlX5ZsZV7ns1O',
-          callback: (token) => {
-            // Handle the Turnstile response token here
-            setTurnstileResponse(token);
-          },
-        });
-      }
-    };
+      script.onload = () => {
+        setIsScriptLoaded(true);
+      };
 
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+      document.body.appendChild(script);
 
-  const [turnstileResponse, setTurnstileResponse] = useState('');
+      window.onloadTurnstileCallback = function () {
+        if (turnstileRef.current && !turnstileRef.current.hasChildNodes()) {
+          window.turnstile.render(turnstileRef.current, {
+            sitekey: '0x4AAAAAAAhYlX5ZsZV7ns1O',
+            callback: function (token) {
+              setTurnstileResponse(token);
+            },
+          });
+        }
+      };
+
+      return () => {
+        const scriptElement = document.getElementById('turnstile-script');
+        if (scriptElement) {
+          document.body.removeChild(scriptElement);
+        }
+      };
+    }
+  }, [isScriptLoaded]);
 
   const handleLogin = async () => {
     try {
@@ -99,7 +109,7 @@ function App() {
               <div className="bottomLeft">
                 <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} onKeyDown={handleKeyDown} />
                 <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={handleKeyDown} />
-                <div className="cf-turnstile" ref={turnstileRef}></div>
+                <div id="turnstile-container" ref={turnstileRef}></div>
                 <button onClick={handleLogin}>Sign In</button>
               </div>
             </div>
