@@ -31,7 +31,7 @@ function App() {
   const handleLogin = async () => {
     try {
       // Fetch CSRF token before logging in
-      const csrfResponse = await axios.get(`https://mail-sso.remala.co.id/api/csrf-token`);
+      const csrfResponse = await axios.get(`http://mail-sso.remala.co.id:5000/api/csrf-token`);
       const csrfToken = csrfResponse.data.csrf_token;
 
       // Check if token is printed
@@ -47,7 +47,7 @@ function App() {
         console.log(pair[0] + ': ' + pair[1]);
       }
 
-      const responseData = await axios.post(`https://mail-sso.remala.co.id/api/loginin`, formData, {
+      const responseData = await axios.post(`hhttp://mail-sso.remala.co.id:5000/api/loginin`, formData, {
         withCredentials: true,
       });
 

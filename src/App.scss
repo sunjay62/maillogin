@@ -254,3 +254,123 @@ body {
     }
   }
 }
+
+// Media query for MacBook Air 14 inch (2560 x 1664)
+@media screen and (width: 2560px) and (height: 1664px) {
+  .loginContainer {
+    .loginLeft {
+      .borderLogin {
+        width: 60%;
+        max-width: 800px;
+      }
+    }
+
+    .loginRight {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .logoTop {
+        img {
+          width: 35%;
+        }
+      }
+
+      .logoBottom {
+        img {
+          width: calc(25% - 20px);
+          max-width: 300px;
+        }
+      }
+    }
+  }
+}
+
+// Media query for MacBook Air 15 inch (2880 x 1864)
+@media screen and (width: 2880px) and (height: 1864px) {
+  .loginContainer {
+    .loginLeft {
+      .borderLogin {
+        width: 55%;
+        max-width: 900px;
+      }
+    }
+
+    .loginRight {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .logoTop {
+        img {
+          width: 30%;
+        }
+      }
+
+      .logoBottom {
+        img {
+          width: calc(20% - 20px);
+          max-width: 350px;
+        }
+      }
+    }
+  }
+}
+
+// Additional responsiveness improvements
+@media screen and (min-width: 1440px) {
+  .loginContainer {
+    .loginLeft {
+      .borderLogin {
+        .loginContent {
+          padding: 40px;
+        }
+
+        .topLeft {
+          h1 {
+            font-size: 2.5rem;
+          }
+
+          p {
+            font-size: 1.1rem;
+          }
+        }
+
+        .bottomLeft {
+          input {
+            height: 55px;
+            font-size: 1.8rem;
+          }
+
+          button {
+            height: 45px;
+            font-size: 1.6rem;
+          }
+        }
+      }
+    }
+
+    .loginRight {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .logoTop {
+        img {
+          width: 35%;
+        }
+      }
+
+      .logoBottom {
+        img {
+          max-width: 380px;
+        }
+      }
+    }
+  }
+
+  .creditContainer {
+    p {
+      font-size: 1.3rem;
+    }
+  }
+}
