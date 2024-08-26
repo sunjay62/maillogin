@@ -15,6 +15,8 @@ function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [turnstileResponse, setTurnstileResponse] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const turnstileRef = useRef(null);
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
 
@@ -52,7 +54,30 @@ function App() {
     }
   }, [isScriptLoaded]);
 
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
+
   const handleLogin = async () => {
+    // Reset error messages
+    setEmailError('');
+    setPasswordError('');
+
+    // Validate email and password
+    if (!email) {
+      setEmailError('Email is required');
+      return;
+    }
+    if (!validateEmail(email)) {
+      setEmailError('Invalid email format');
+      return;
+    }
+    if (!password) {
+      setPasswordError('Password is required');
+      return;
+    }
+
     try {
       const formData = new FormData();
       formData.append('email', email);
@@ -104,9 +129,34 @@ function App() {
                 <p>Enter your username and password to sign in!</p>
               </div>
               <div className="bottomLeft">
-                <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} onKeyDown={handleKeyDown} />
-                <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={handleKeyDown} />
-                <div id="turnstile-container" className="containerCloudFlare" ref={turnstileRef}></div>
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setEmailError('');
+                  }}
+                  onKeyDown={handleKeyDown}
+                  required
+                  className={emailError ? 'error-input' : ''}
+                />
+                {emailError && <span className="error">{emailError}</span>}
+
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setPasswordError('');
+                  }}
+                  onKeyDown={handleKeyDown}
+                  required
+                  className={passwordError ? 'error-input' : ''}
+                />
+                {passwordError && <span className="error">{passwordError}</span>}
+                <div id="turnstile-container" ref={turnstileRef}></div>
                 <button onClick={handleLogin}>Sign In</button>
               </div>
             </div>
