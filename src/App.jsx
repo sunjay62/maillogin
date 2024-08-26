@@ -65,8 +65,6 @@ function App() {
 
       const responseData = await axios.post(`https://mail-sso.remala.co.id/api/login`, formData);
 
-      console.log(responseData);
-
       if (responseData.status === 200 && responseData.data.url) {
         window.location.href = responseData.data.url;
         toast.success('Login Successfully!', {
@@ -74,7 +72,6 @@ function App() {
         });
       }
     } catch (error) {
-      console.log(error);
       if (error.response && error.response.status === 401) {
         toast.error(error.response.data.messages, {
           position: 'top-center',
