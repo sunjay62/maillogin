@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './App.scss';
 import logoRemala from './assets/image/logoremala.png';
 import logoTachyon from './assets/image/logotachyon.png';
@@ -14,7 +14,7 @@ import { Bounce, toast } from 'react-toastify';
 function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [turnstileResponse, setTurnstileResponse] = useState('');
+  const turnstileRef = useRef(null); // Ref to access the Turnstile widget
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -23,23 +23,37 @@ function App() {
     script.defer = true;
     document.body.appendChild(script);
 
+    script.onload = () => {
+      if (window.turnstile) {
+        window.turnstile.render(turnstileRef.current, {
+          sitekey: '0x4AAAAAAAhYlX5ZsZV7ns1O',
+          callback: (token) => {
+            // Handle the Turnstile response token here
+            setTurnstileResponse(token);
+          },
+        });
+      }
+    };
+
     return () => {
       document.body.removeChild(script);
     };
   }, []);
+
+  const [turnstileResponse, setTurnstileResponse] = useState('');
 
   const handleLogin = async () => {
     try {
       const formData = new FormData();
       formData.append('email', email);
       formData.append('password', password);
-      // formData.append('cf-turnstile-response', turnstileResponse);
+      formData.append('cf-turnstile-response', turnstileResponse);
 
       for (let pair of formData.entries()) {
         console.log(pair[0] + ': ' + pair[1]);
       }
 
-      const responseData = await axios.post(`https://mail-sso.remala.co.id/api/loginin`, formData);
+      const responseData = await axios.post(`https://mail-sso.remala.co.id/api/login`, formData);
 
       console.log(responseData);
 
@@ -85,7 +99,7 @@ function App() {
               <div className="bottomLeft">
                 <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} onKeyDown={handleKeyDown} />
                 <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={handleKeyDown} />
-                <div className="cf-turnstile" data-sitekey="0x4AAAAAAAhYlX5ZsZV7ns1O"></div>
+                <div className="cf-turnstile" ref={turnstileRef}></div>
                 <button onClick={handleLogin}>Sign In</button>
               </div>
             </div>
