@@ -16,34 +16,27 @@ function App() {
   const [password, setPassword] = useState('');
   const [turnstileResponse, setTurnstileResponse] = useState('');
 
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
-    script.async = true;
-    script.defer = true;
-    document.body.appendChild(script);
+  // useEffect(() => {
+  //   const script = document.createElement('script');
+  //   script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+  //   script.async = true;
+  //   script.defer = true;
+  //   document.body.appendChild(script);
 
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`https://mail-sso.remala.co.id/api/csrf-token`);
-        console.log('CSRF Token:', response.data.csrf_token); // Check if token is printed
-        setCsrfToken(response.data.csrf_token);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  //   return () => {
+  //     document.body.removeChild(script);
+  //   };
+  // }, []);
 
   const handleLogin = async () => {
     try {
+      // Fetch CSRF token before logging in
+      const csrfResponse = await axios.get(`https://mail-sso.remala.co.id/api/csrf-token`);
+      const csrfToken = csrfResponse.data.csrf_token;
+
+      // Check if token is printed
+      console.log('CSRF Token:', csrfToken);
+
       const formData = new FormData();
       formData.append('email', email);
       formData.append('password', password);
