@@ -106,7 +106,7 @@ function App() {
               <div className="bottomLeft">
                 <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} onKeyDown={handleKeyDown} />
                 <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={handleKeyDown} />
-                <div id="turnstile-container" ref={turnstileRef}></div>
+                <div id="turnstile-container" className="containerCloudFlare" ref={turnstileRef}></div>
                 <button onClick={handleLogin}>Sign In</button>
               </div>
             </div>
