@@ -47,7 +47,7 @@ function App() {
         console.log(pair[0] + ': ' + pair[1]);
       }
 
-      const responseData = await axios.post(`hhttp://mail-sso.remala.co.id:5000/api/loginin`, formData, {
+      const responseData = await axios.post(`http://mail-sso.remala.co.id:5000/api/loginin`, formData, {
         withCredentials: true,
       });
 
