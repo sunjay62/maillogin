@@ -126,7 +126,7 @@ function App() {
             <div className="loginContent">
               <div className="topLeft">
                 <h1>Sign In Email</h1>
-                <p>Enter your username and password to sign in!</p>
+                <p>Enter your email and password to sign in!</p>
               </div>
               <div className="bottomLeft">
                 <input
