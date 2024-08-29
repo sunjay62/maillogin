@@ -20,6 +20,9 @@ function App() {
   const turnstileRef = useRef(null);
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
 
+  const urlEndpoint = window.location.hostname;
+  console.log(urlEndpoint);
+
   useEffect(() => {
     if (!isScriptLoaded && !document.getElementById('turnstile-script')) {
       const script = document.createElement('script');
@@ -54,11 +57,6 @@ function App() {
     }
   }, [isScriptLoaded]);
 
-  const validateEmail = (email) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  };
-
   const handleLogin = async () => {
     // Reset error messages
     setEmailError('');
@@ -67,10 +65,6 @@ function App() {
     // Validate email and password
     if (!email) {
       setEmailError('Email is required');
-      return;
-    }
-    if (!validateEmail(email)) {
-      setEmailError('Invalid email format');
       return;
     }
     if (!password) {
@@ -88,7 +82,10 @@ function App() {
         console.log(pair[0] + ': ' + pair[1]);
       }
 
-      const responseData = await axios.post(`https://mail-sso.remala.co.id/api/login`, formData);
+      const apiEndpoint = `https://${urlEndpoint}/api/login`;
+      console.log('API Endpoint for axios.post:', apiEndpoint);
+
+      const responseData = await axios.post(apiEndpoint, formData);
 
       if (responseData.status === 200 && responseData.data.url) {
         window.location.href = responseData.data.url;
