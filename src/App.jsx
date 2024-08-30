@@ -78,12 +78,7 @@ function App() {
       formData.append('password', password);
       formData.append('cf-turnstile-response', turnstileResponse);
 
-      for (let pair of formData.entries()) {
-        console.log(pair[0] + ': ' + pair[1]);
-      }
-
       const apiEndpoint = `https://${urlEndpoint}/api/login`;
-      console.log('API Endpoint for axios.post:', apiEndpoint);
 
       const responseData = await axios.post(apiEndpoint, formData);
 
