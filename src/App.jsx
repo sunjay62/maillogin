@@ -159,13 +159,13 @@ function App() {
       formData.append('email', email);
       formData.append('old_password', password);
       formData.append('new_password', confirmPassword);
-      formData.append('cf-turnstile-response', turnstileResponse);
+      // formData.append('cf-turnstile-response', turnstileResponse);
 
       for (let pair of formData.entries()) {
         console.log(pair[0] + ': ' + pair[1]);
       }
 
-      const apiChangePassword = `https://${urlEndpoint}/api/changepass`;
+      const apiChangePassword = `https://${urlEndpoint}/api/changepassin`;
       console.log('API Endpoint for axios.post:', apiChangePassword);
 
       const responseData = await axios.post(apiChangePassword, formData);
