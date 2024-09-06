@@ -26,7 +26,7 @@ function App() {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const urlEndpoint = window.location.hostname;
-  // console.log(urlEndpoint);
+  console.log(urlEndpoint);
 
   useEffect(() => {
     if (!isScriptLoaded && !document.getElementById('turnstile-script')) {
@@ -88,7 +88,7 @@ function App() {
       // }
 
       const apiEndpoint = `https://${urlEndpoint}/api/login`;
-      // console.log('API Endpoint for axios.post:', apiEndpoint);
+      console.log('API Endpoint for axios.post:', apiEndpoint);
 
       const responseData = await axios.post(apiEndpoint, formData);
 
@@ -166,7 +166,7 @@ function App() {
       // }
 
       const apiChangePassword = `https://${urlEndpoint}/api/changepass`;
-      // console.log('API Endpoint for axios.post:', apiChangePassword);
+      console.log('API Endpoint for axios.post:', apiChangePassword);
 
       const responseData = await axios.post(apiChangePassword, formData);
 
